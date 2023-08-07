@@ -1,0 +1,16 @@
+git init //git inicializálás
+touch {név.kiterjesztés} //Létrehoz
+start {név.kiterjesztés} //Elindít
+code {név.kiterjesztés} //Elindít és szerkeszt
+pwd //Mindent töröl
+rm * //Mappán belül töröl mindent // -r mappa törlése
+git status //Friss változtatások
+git log //Commits
+git add {fájlnév} //Hozzáadás a git-hez - Staging area
+git commit -m "{message}"
+git diff {fájlnév} //Különbség megtekintése
+git checkout {fájlnév} //Visszatérés utolsó verzióra
+git remote add {fájlnév} {URL} //Virtual Repository
+git push -u {fájlnév} {main}
+git rm --cached -r . //Minden staging area cucc kiszedése onnan
+git clone {URL}
