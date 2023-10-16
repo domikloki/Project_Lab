@@ -1,0 +1,53 @@
+Kártya -> Gógynövény, növény
+
+Kártya felépítése:
+Főcím
+3 alcím kategória
+Lényegi szöveg
+
+
+Hőhatás - 3-4
+Részei - 8 féle rész
+Hatóanyagai - Szabad szöveges rész
+
+Szűrés: Meleg hőhatású, 
+neve, Részei, összetevők, leírása, hatóanyagai, hőhatása
+
+B-vitamin 
+Főcím B-12
+Alcím 1: Máj, emésztés, kullancs
+2-rendű cím Akármi, Akármi
+3-rendű cím B-vitamin
+Szabad szöveg
+
+
+
+
+
+n-rendű címek nem kötelezőek
+Szűrések címek alapján, tartalom alapján, melyik szinten?, minden
+Keresés: emésztés
+
+
+
+
+Elosztás:
+("Hivatalos")
+Frontend - Én
+Backend (adatbázis, API) - Te
+
+!!!!!//0925
+Főcím (levendula)
+Alcím lista: (Illat, Olaj, [szóközös szó], Hatóanyag)
+Szabad szöveges tömb
+
+Keresés: Alcímben, Szabad szöveges tömbben
+
+Illat, Olaj //Több tag együtt
+Szöveg szöveg //Tömbben
+//Kettő együtt is
+
+
+
+
+
