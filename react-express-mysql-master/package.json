@@ -1,0 +1,11 @@
+{
+  "name": "react-express-mysql-master",
+  "version": "1.0.0",
+  "description": "For more detail, please visit:\r > [How to integrate React with Node.js Express on same Server/Port](https://bezkoder.com/integrate-react-express-same-server-port/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
