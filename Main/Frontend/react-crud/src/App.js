@@ -17,6 +17,7 @@ import Modal from 'react-bootstrap/Modal';
 import Col from 'react-bootstrap/Col';
 import { useState } from 'react'
 
+
 import Alert from 'react-bootstrap/Alert';
 
 
@@ -90,8 +91,9 @@ function CCard(props)
   </div>
 
 //show={modalShow} onHide={() => setModalShow(false)}
-
 }
+
+
 
 // Probléma: Amikor egy kártyára rákattintok az adott kártya adatait kellene megjeleníteni,
 // amit hol kellene átadni? -> Még itt local-ban lehet értékátadni, de 'szerveren' hogy?->
@@ -143,6 +145,7 @@ function App() {
 
       <Form.Control type="text" placeholder="Kereső" />
       <Button variant="primary">Nézet</Button>
+
 
       <CCard></CCard>
       {/* <Container>

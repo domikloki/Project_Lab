@@ -28,6 +28,11 @@ class TutorialDataService {
   findByTitle(title) {
     return http.get(`/tutorials?title=${title}`);
   }
+  //Külön írjunk függvényt ha title-
+  //description-tag keresés van, vagy
+  //egy nagy függvény, ahol ott az összes
+  //bemeneti paraméterként
+  //Különbség: Ha egybe akk 
 }
 
 export default new TutorialDataService();
