@@ -1,6 +1,7 @@
 const db = require("../models");
 const Tutorial = db.tutorials;
 const Op = db.Sequelize.Op;
+const { Sequelize } = require('sequelize');
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -31,6 +32,127 @@ exports.create = (req, res) => {
       });
     });
 };
+
+exports.sortByTime = (req, res) => {
+  const title = req.query.title;
+  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+
+  Tutorial.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    }); 
+  
+}
+
+exports.findLatest = (req, res) => {
+  Tutorial.findAll({
+    order: [['updatedAt', 'DESC']],
+    limit: 3 // Add this line to limit the results to 3
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.findAllTitleASC = (req, res) => {
+  Tutorial.findAll({
+    order: [['title', 'ASC']],
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.findAllTitleDESC = (req, res) => {
+  Tutorial.findAll({
+    order: [['title', 'DESC']],
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.findByTitle = (req, res) => {
+  const searchWord = req.params.searchWord;
+
+  Tutorial.findAll({
+    where: {
+      title: {
+        [Sequelize.Op.like]: `%${searchWord}%`
+      }
+    }
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.findByTags = (req, res) => {
+  const searchWord = req.params.searchWord;
+
+  Tutorial.findAll({
+    where: {
+      tags: {
+        [Sequelize.Op.like]: `%${searchWord}%`
+      }
+    }
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.findByDescription = (req, res) => {
+  const searchWord = req.params.searchWord;
+
+  Tutorial.findAll({
+    where: {
+      description: {
+        [Sequelize.Op.like]: `%${searchWord}%`
+      }
+    }
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
