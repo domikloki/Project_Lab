@@ -8,8 +8,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 
-import AddTutorial from "./components/AddCard.js";
+import AddTutorial from "./components/add-tutorial.component";
+import Tutorial from "./components/tutorial.component";
+import TutorialsList from "./components/tutorials-list.component";
+import AddCard from "./components/AddCard.js";
 import ShowCards from './components/show-cards.js';
+
 
 
 
@@ -190,12 +194,17 @@ function App() {
 
       <div className="container mt-3">
           <Routes>
-            <Route path="/" element={<ShowCards/>} />
-            <Route path="/add" element={<AddTutorial/>} />
+            {/* <Route path="/" element={<ShowCards/>} /> */}
+            <Route path="/add" element={<AddCard/>} />
             <Route path="/showcards" element={<ShowCards/>} />
-            {/* <Route path="/add-card" element={<AddCard/>} /> */}
+
+            <Route path="/" element={<TutorialsList/>} />
+            <Route path="/tutorials" element={<TutorialsList/>} />
+            <Route path="/add" element={<AddTutorial/>} />
+            <Route path="/tutorials/:id" element={<Tutorial/>} />
           </Routes>
       </div>
+
     
 
 

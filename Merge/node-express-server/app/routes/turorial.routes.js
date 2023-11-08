@@ -9,6 +9,21 @@ module.exports = app => {
   // Retrieve all Tutorials
   router.get("/", tutorials.findAll);
 
+  //megtalálja a 3 utoljára szerkesztettet
+  router.get("/latest", tutorials.findLatest);
+
+  //ABC szerint növekvő sorrendben összes
+  router.get("/titleASC", tutorials.findAllTitleASC);
+
+  //ABC szerint csökkenő sorrendben
+  router.get("/titleDESC", tutorials.findAllTitleDESC);
+
+  router.get('/title/:searchWord', tutorials.findByTitle);
+
+  router.get('/tags/:searchWord', tutorials.findByTags);
+
+  router.get('/description/:searchWord', tutorials.findByDescription);
+
   // Retrieve all published Tutorials
   router.get("/published", tutorials.findAllPublished);
 
@@ -24,5 +39,5 @@ module.exports = app => {
   // Delete all Tutorials
   router.delete("/", tutorials.deleteAll);
 
-  app.use('/api/tutorials', router);
+  app.use('/api/noveny', router);
 };
