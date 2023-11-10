@@ -167,6 +167,7 @@ function App() {
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
               <Link to={"/showcards"} className="nav-link">Kártyák</Link>
+              <Link to={"/addt"} className="nav-link">Hozzáadás (tut)</Link>
               <Link to={"/add"} className="nav-link">Hozzáadás</Link>
             </Nav>
             <Form className="d-flex">
@@ -200,7 +201,7 @@ function App() {
 
             <Route path="/" element={<TutorialsList/>} />
             <Route path="/tutorials" element={<TutorialsList/>} />
-            <Route path="/add" element={<AddTutorial/>} />
+            <Route path="/addt" element={<AddTutorial/>} />
             <Route path="/tutorials/:id" element={<Tutorial/>} />
           </Routes>
       </div>
