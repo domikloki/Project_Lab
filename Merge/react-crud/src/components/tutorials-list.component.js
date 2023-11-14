@@ -89,6 +89,11 @@ export default class TutorialsList extends Component {
       });
   }
 
+  deletePlant()
+  {
+    
+  }
+
   render() {
     const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
 
