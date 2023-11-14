@@ -101,13 +101,13 @@ export default class ShowCards extends Component {
         {
             this.setState({
                 editButton: "success",
-                editable: !this.editable
+                editable: true
             });
         } else
         {
             this.setState({
                 editButton: "primary",
-                editable: !this.editable
+                editable: false
             });
         }
       }
@@ -187,14 +187,19 @@ export default class ShowCards extends Component {
 
 
     render() {
-        const { plants, searchTitle, editButton, editable, editmodalData } = this.state;
+        const { plants, searchTitle, editButton } = this.state;
 
         return(
             <div>
-                <Stack direction="horizontal" gap={1} className="col-md-5 mx-auto p-3">
-                    <Form.Control type="text" placeholder="Kereső" value={searchTitle} onChange={this.onChangeSearchTitle}/>
-                    <Button variant="success" onClick={this.searchTitle}>Keresés</Button>
-                    <Button variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
+                    <Form.Control className="col-md-2 col-lg-4 mx-auto" type="text" placeholder="Kereső" value={searchTitle} onChange={this.onChangeSearchTitle}/>
+                    <Button className="col-md-2 mx-auto" variant="success" onClick={this.searchTitle}>Keresés</Button>
+                    <Button className="col-md-2 mx-auto" variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                </Stack>
+                <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
+                    <Form.Control className="col-md-2 col-lg-4 mx-auto" type="text" placeholder="Címkék"/>
+                    <Button className="col-md-2 mx-auto" variant="success">Hozzáad</Button>
+                    <Button className="col-md-2 mx-auto" variant="primary">Kiürít</Button>
                 </Stack>
                 <Container>
                     <Row className="justify-content-md-center">
@@ -216,28 +221,28 @@ export default class ShowCards extends Component {
                             size="lg"
                             aria-labelledby="contained-modal-title-vcenter"centered>
                             <Modal.Header closeButton>
-                                <Modal.Title id="contained-modal-title-vcenter"><Form.Control id="cardTitle" size="lg" className="text-center" onChange={this.onChangeTitle} value={this.state.editmodalData.title} /></Modal.Title>
+                                <Modal.Title id="contained-modal-title-vcenter"><Form.Control id="cardTitle" size="lg" className="text-center w-100" onChange={this.onChangeTitle} value={this.state.editmodalData.title} /></Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Form.Control style={{width:"50%"}} size="sm" id="cardTags" placeholder="Címke" onChange={this.onChangeTags} value={this.state.editmodalData.tags} />
+                                <Form.Control style={{width:"50%"}} className="w-100" size="sm" id="cardTags" placeholder="Címke" onChange={this.onChangeTags} value={this.state.editmodalData.tags} />
                                 <Container className='modalimage'>
                                     <Row className="justify-content-md-center">
                                         <Col xs lg="7">
                                             <Image xs lg="7" className="justify-content-md-center" src="flower.jpg" fluid/>
                                         </Col>
                                     </Row>
-                                    <Form.Control as="textarea" rows={3} id="cardDescription" placeholder="Leírás" onChange={this.onChangeDescription} value={this.state.editmodalData.description} />
-                                    <Form.Group controlId="formFile" className="col-lg-6">
+                                    <Form.Control as="textarea" className="w-100" rows={3} id="cardDescription" placeholder="Leírás" onChange={this.onChangeDescription} value={this.state.editmodalData.description} />
+                                    <Form.Group controlId="formFile" className="col-lg-4 w-100">
                                         <Form.Label>Kép feltöltése</Form.Label>
-                                        <Form.Control type="file" />
+                                        <Form.Control type="file" className="w-100"/>
                                     </Form.Group>
                                 </Container>
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="danger" onClick={this.deletePlant}>Törlés</Button>
-                                <Button onClick={() => this.setState({ modalShow: false, editButton: "primary"})}>Bezár</Button>
-                                <Button variant={editButton} onClick={() => this.setState({ editable: !editable}, this.editButtonChange)}>Szerkesztés</Button>
+                                <Button variant="secondary" onClick={() => this.setState({ modalShow: false}, this.editButtonChange)}>Bezár</Button>
+                                <Button variant={editButton} onClick={() => this.setState(this.editButtonChange)}>Szerkesztés</Button>
                                 <Button onClick={() => this.setState(this.updatePlant) }>Mentés</Button>
+                                <Button variant="danger" onClick={this.deletePlant}>Törlés</Button>
                             </Modal.Footer>
                         </Modal>
                 ) : (
@@ -263,7 +268,7 @@ export default class ShowCards extends Component {
                             </Modal.Body>
 
                             <Modal.Footer>
-                                <Button onClick={() => this.setState({ modalShow: false, editable: false})}>Bezár</Button>
+                                <Button variant="secondary" onClick={() => this.setState({ modalShow: false, editable: false})}>Bezár</Button>
                                 <Button onClick={() => this.setState(this.editButtonChange)}>Szerkesztés</Button>
                             </Modal.Footer>
                         </Modal>
