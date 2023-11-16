@@ -192,14 +192,29 @@ export default class ShowCards extends Component {
         return(
             <div>
                 <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
-                    <Form.Control className="col-md-2 col-lg-4 mx-auto" type="text" placeholder="Kereső" value={searchTitle} onChange={this.onChangeSearchTitle}/>
-                    <Button className="col-md-2 mx-auto" variant="success" onClick={this.searchTitle}>Keresés</Button>
-                    <Button className="col-md-2 mx-auto" variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                    <Container className="col-lg-6">
+                      <Form.Control className="col-md-2 col-lg-3 mx-auto" type="text" placeholder="Kereső" value={searchTitle} onChange={this.onChangeSearchTitle}/>
+                    </Container>
+                    <Container>
+                      <Col>
+                        <Button className="col-md-2 mx-auto" variant="success" onClick={this.searchTitle}>Keresés</Button>
+                        <Button className="col-md-2 mx-auto" variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                      </Col>
+
+                    </Container>
                 </Stack>
                 <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
-                    <Form.Control className="col-md-2 col-lg-4 mx-auto" type="text" placeholder="Címkék"/>
-                    <Button className="col-md-2 mx-auto" variant="success">Hozzáad</Button>
-                    <Button className="col-md-2 mx-auto" variant="primary">Kiürít</Button>
+                    <Container className="col-lg-6">
+                      <Form.Label className="col-md-2 text-dark">Címkék helye</Form.Label>
+                      <Form.Control className="col-md-2 col-lg-3 mx-auto" type="text" placeholder="Címkék"/>
+                    </Container>
+                    <Container>
+                      <Col>
+                        <Button className="col-md-2 mx-auto" variant="success" onClick={this.searchTitle}>Hozzáad</Button>
+                        <Button className="col-md-2 mx-auto" variant="primary" onClick={this.retrievePlants}>Kiürít</Button>
+                      </Col>
+
+                    </Container>
                 </Stack>
                 <Container>
                     <Row className="justify-content-md-center">

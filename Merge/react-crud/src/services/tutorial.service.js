@@ -28,6 +28,10 @@ class TutorialDataService {
   findByTitle(title) {
     return http.get(`/noveny?title=${title}`);
   }
+
+  getAllABC() {
+    return http.get(`/noveny/titleASC`)
+  }
 }
 
 export default new TutorialDataService();

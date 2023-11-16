@@ -24,6 +24,8 @@ module.exports = app => {
 
   router.get('/description/:searchWord', tutorials.findByDescription);
 
+  router.get('/latestcreated/', tutorials.findLatestCreated);
+
   // Retrieve all published Tutorials
   router.get("/published", tutorials.findAllPublished);
 

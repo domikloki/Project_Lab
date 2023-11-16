@@ -66,6 +66,21 @@ exports.findLatest = (req, res) => {
   });
 };
 
+exports.findLatestCreated = (req, res) => {
+  Tutorial.findAll({
+    order: [['createdAt', 'DESC']],
+    limit: 3 // Add this line to limit the results to 3
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
 exports.findAllTitleASC = (req, res) => {
   Tutorial.findAll({
     order: [['title', 'ASC']],
