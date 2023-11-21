@@ -98,6 +98,33 @@ exports.findAllTitleASC = (req, res) => {
 exports.findAllTitleDESC = (req, res) => {
   Tutorial.findAll({
     order: [['title', 'DESC']],
+    // where: {
+    //   title: {
+    //     [Sequelize.Op.like]: `%${searchWord}%`//
+    //   }
+    // }
+    
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
+exports.searchTitleDESC = (req, res) => { //title, abc csökkenő
+  const searchWord = req.params.searchWord;
+  Tutorial.findAll({
+    order: [['title', 'DESC']],
+     where: {
+       title: {
+         [Sequelize.Op.like]: `%${searchWord}%`//
+       }
+     }
+    
   })
   .then(data => {
     res.send(data);
@@ -111,11 +138,12 @@ exports.findAllTitleDESC = (req, res) => {
 
 exports.findByTitle = (req, res) => {
   const searchWord = req.params.searchWord;
+  //const sortype = ...
 
   Tutorial.findAll({
     where: {
       title: {
-        [Sequelize.Op.like]: `%${searchWord}%`
+        [Sequelize.Op.like]: `%${searchWord}%`//
       }
     }
   })
@@ -149,8 +177,9 @@ exports.findByTags = (req, res) => {
   });
 };
 
-exports.findByDescription = (req, res) => {
+exports.findByDescription = async (req, res) => {
   const searchWord = req.params.searchWord;
+  //const sortype = ...
 
   Tutorial.findAll({
     where: {
@@ -168,6 +197,7 @@ exports.findByDescription = (req, res) => {
     });
   });
 };
+
 
 
 // Retrieve all Tutorials from the database.

@@ -29,8 +29,12 @@ class TutorialDataService {
     return http.get(`/noveny?title=${title}`);
   }
 
+  findByDescription(description) {
+    return http.get(`/noveny?description=${description}`);
+  }
+
   getAllABC() {
-    return http.get(`/noveny/titleASC`)
+    return http.get(`/noveny/titleASC`);
   }
 }
 

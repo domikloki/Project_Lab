@@ -8,12 +8,16 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Dropdown from 'react-bootstrap/Dropdown';
+import InputGroup from 'react-bootstrap/InputGroup';
 //import cardprops from './cardprops.js';
 import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
+import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 //import { useState } from 'react';
 
 export default class ShowCards extends Component {
@@ -36,6 +40,10 @@ export default class ShowCards extends Component {
             editButton: "primary",
             editable: false,
             plants: [],
+            searchType: "",
+            searchDescription: "",
+            filterType: "",
+            activeItem: "1",
             modalData: [],
             editmodalData: [
                 {                
@@ -71,14 +79,30 @@ export default class ShowCards extends Component {
 
     onChangeSearchTitle(e) {
         const searchTitle = e.target.value;
-    
+        const searchDescription = e.target.value;
         this.setState({
-          searchTitle: searchTitle
+          searchTitle: searchTitle,
+          searchDescription: searchTitle
         });
       }
 
       searchTitle() {
-        TutorialDataService.findByTitle(this.state.searchTitle)
+        if (this.state.searchType == "Főcím")
+        {
+          TutorialDataService.findByTitle(this.state.searchTitle)
+          .then(response => {
+            alert("Anyád lefutosssk");
+            this.setState({
+              plants: response.data
+            });
+            console.log(response.data);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+        } else if (this.state.searchType == "Leírás")
+        {
+          TutorialDataService.findByDescription(this.state.searchDescription)
           .then(response => {
             this.setState({
               plants: response.data
@@ -88,7 +112,9 @@ export default class ShowCards extends Component {
           .catch(e => {
             console.log(e);
           });
+        }
       }
+      
 
       searchBack() {
         this.setState({
@@ -188,24 +214,44 @@ export default class ShowCards extends Component {
 
     render() {
         const { plants, searchTitle, editButton } = this.state;
-
+//pici margó a kártyák között
+//Címke példaadatok
+//Bakonnak csütörtök délután 4ig előadást
         return(
             <div>
-                <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
                     <Container className="col-lg-6">
-                      <Form.Control className="col-md-2 col-lg-3 mx-auto" type="text" placeholder="Kereső" value={searchTitle} onChange={this.onChangeSearchTitle}/>
-                    </Container>
-                    <Container>
-                      <Col>
-                        <Button className="col-md-2 mx-auto" variant="success" onClick={this.searchTitle}>Keresés</Button>
-                        <Button className="col-md-2 mx-auto" variant="primary" onClick={this.retrievePlants}>Vissza</Button>
-                      </Col>
+                      <Row className="justify-content-md-center">
+                        <InputGroup className="mb-2">
+                          <InputGroup.Text className="fs-4">
+                            <Dropdown className="">
+                              <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">{this.state.searchType}</Dropdown.Toggle>
+                              <DropdownMenu>
+                                <DropdownItem active={this.state.activeItem === "1"} onClick={() => this.setState({ searchType: "Főcím", activeItem: "1"})}>Főcím</DropdownItem>
+                                <DropdownItem active={this.state.activeItem === "2"}  onClick={() => this.setState({ searchType: "Leírás",  activeItem: "2"})}>Leírás</DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </InputGroup.Text>
+                          <Form.Control className="col-md-3 col-lg-3 w-45" type="text" placeholder="Kereső" value={searchTitle} onChange={this.onChangeSearchTitle}/>
+                        </InputGroup>
+                        <Col className="d-flex" xs="auto">
+                          <Dropdown className="">
+                              <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
+                              <DropdownMenu>
+                                <DropdownItem>ABC szerint csökkenő</DropdownItem>
+                                <DropdownItem>ABC szerint növekvő</DropdownItem>
+                                <DropdownItem>Létrehozás dátuma</DropdownItem>
+                                <DropdownItem>Utolsó szerkesztés</DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          <Button className="col-md-6 col-lg-6 mx-auto" variant="success" onClick={this.searchTitle}>Keresés</Button>
+                          <Button className="col-md-6 col-lg-6 mx-auto" variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                        </Col>
+                      </Row>
 
                     </Container>
-                </Stack>
                 <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
                     <Container className="col-lg-6">
-                      <Form.Label className="col-md-2 text-dark">Címkék helye</Form.Label>
+                      <Form.Label className="col-md-2 text-dark">{this.state.searchType + " " + this.state.searchType}</Form.Label>
                       <Form.Control className="col-md-2 col-lg-3 mx-auto" type="text" placeholder="Címkék"/>
                     </Container>
                     <Container>
@@ -292,130 +338,6 @@ export default class ShowCards extends Component {
         );
     }
 }
-
-
-{/* <Modal show={this.state.modalShow} onHide={() => this.setState({ modalShow: false})}
-                    //{...props}
-                    size="lg"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered>
-                    <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">{this.state.modalData.title}</Modal.Title>
-
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h5 className="text-break">{this.state.modalData.tags}</h5>
-                        <Container className='modalimage'>
-                            <Row className="justify-content-md-center">
-                                <Col xs lg="7">
-                                    <Image xs lg="7" className="justify-content-md-center" src="flower.jpg" fluid/>
-                                </Col>
-                            </Row>
-                            <h5 className="text-break">{this.state.modalData.description}</h5>
-                        </Container>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button onClick={() => this.setState({ modalShow: false})}>Bezár</Button>
-                        <Button>Szerkesztés</Button>
-                    </Modal.Footer>
-</Modal> */}
-
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// import React, { useState } from 'react';
-// import { Form, Button } from 'react-bootstrap';
-
-// const DynamicFormControl = () => {
-//   const [mode, setMode] = useState('text');
-//   const [inputValue, setInputValue] = useState('This is regular text.');
-
-//   const toggleMode = () => {
-//     setMode((prevMode) => (prevMode === 'text' ? 'form' : 'text'));
-//   };
-
-//   const handleInputChange = (e) => {
-//     setInputValue(e.target.value);
-//   };
-
-//   return (
-//     <Form>
-//       {mode === 'text' ? (
-//         <p>{inputValue}</p>
-//       ) : (
-//         <Form.Control
-//           type="text"
-//           placeholder="Enter text"
-//           value={inputValue}
-//           onChange={handleInputChange}
-//         />
-//       )}
-
-//       <Button variant="primary" onClick={toggleMode}>
-//         {mode === 'text' ? 'Edit' : 'Save'}
-//       </Button>
-//     </Form>
-//   );
-// };
-
-// export default DynamicFormControl;
-    // return (
-    //     {this.state.editable ? (
-    //         <Modal show={this.state.modalShow} onHide={() => this.setState({ modalShow: false, editSable: true, editButton: "primary", ediTitle: true})}
-    //                 //{...props}
-    //                 size="lg"
-    //                 aria-labelledby="contained-modal-title-vcenter"centered>
-    //                 <Modal.Header closeButton>
-    //                     <Modal.Title id="contained-modal-title-vcenter"><Form.Control id="cardTitle" size="lg" className="text-center" value={this.state.modalData.title} /></Modal.Title>
-
-    //                 </Modal.Header>
-    //                 <Modal.Body>
-    //                     <Form.Control style={{width:"50%"}} size="sm" id="cardTags" placeholder="Címke" value={this.state.modalData.tags} />
-    //                     <Container className='modalimage'>
-    //                         <Row className="justify-content-md-center">
-    //                             <Col xs lg="7">
-    //                                 <Image xs lg="7" className="justify-content-md-center" src="flower.jpg" fluid/>
-    //                             </Col>
-    //                         </Row>
-    //                         <Form.Control as="textarea" rows={3} id="cardDescription" placeholder="Leírás" value={this.state.modalData.description} />
-    //                     </Container>
-    //                 </Modal.Body>
-
-    //                 <Modal.Footer>
-    //                     <Button onClick={() => this.setState({ modalShow: false, editSable: true, editButton: "primary", ediTitle: true})}>Bezár</Button>
-    //                     <Button variant={editButton} onClick={() => this.setState({ ediTitle: !ediTitle}, this.editButtonChange)}>Szerkesztés</Button>
-    //                     <Button disabled={editSable} onClick={() => this.setState({ modalShow: false})}>Mentés</Button>
-    //                 </Modal.Footer>
-    //             </Modal>
-    //       ) : (
-    //             <Modal show={this.state.modalShow} onHide={() => this.setState({ modalShow: false})}
-    //                 //{...props}
-    //                 size="lg"
-    //                 aria-labelledby="contained-modal-title-vcenter"
-    //                 centered>
-    //                 <Modal.Header closeButton>
-    //                     <Modal.Title id="contained-modal-title-vcenter">{this.state.modalData.title}</Modal.Title>
-
-    //                 </Modal.Header>
-    //                 <Modal.Body>
-    //                     <h5 className="text-break">{this.state.modalData.tags}</h5>
-    //                     <Container className='modalimage'>
-    //                         <Row className="justify-content-md-center">
-    //                             <Col xs lg="7">
-    //                                 <Image xs lg="7" className="justify-content-md-center" src="flower.jpg" fluid/>
-    //                             </Col>
-    //                         </Row>
-    //                         <h5 className="text-break">{this.state.modalData.description}</h5>
-    //                     </Container>
-    //                 </Modal.Body>
-
-    //                 <Modal.Footer>
-    //                     <Button onClick={() => this.setState({ modalShow: false})}>Bezár</Button>
-    //                     <Button>Szerkesztés</Button>
-    //                 </Modal.Footer>
-    //             </Modal>
-    //       )}
-    // )
 
 
 
