@@ -38,7 +38,7 @@ class TutorialDataService {
   }
 
   searchTitle(title, sortype) {
-    return http.get(`/noveny/searchTitle?title=${title}&sortype=${sortype}`);
+    return http.get(`/noveny/searchTitle?title=${title}/?sortype=${sortype}`);
   }
   
   

@@ -120,13 +120,13 @@ exports.searchTitle = (req, res) => {
   const sortype = req.params.sortype;
   //const searchtype = req.params.searchtype;
   Tutorial.findAll({
-    order: [['title', `%${sortype}%`]],
+    order: [['title', `${sortype}`]],
      where: {
        title: {
          [Sequelize.Op.like]: `%${searchWord}%`
        }
      }
-    
+
   })
   .then(data => {
     res.send(data);
@@ -205,10 +205,10 @@ exports.findByDescription = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const sortDirection = sortype === 'DESC' ? 'DESC' : 'ASC';
+  const sortDirection = req.params.sortype = 'DESC';
 
   Tutorial.findAll({
-    order: [['title', sortDirection]],
+    order: [['title', 'DESC']],
     // ... rest of your query
   })
   .then(data => {
