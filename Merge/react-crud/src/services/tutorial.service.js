@@ -36,6 +36,10 @@ class TutorialDataService {
   getAllABC() {
     return http.get(`/noveny/titleASC`);
   }
+
+  searchTitleORDERED(title) {
+    return http.get(`/noveny?title=${title}`);
+  }
 }
 
 export default new TutorialDataService();

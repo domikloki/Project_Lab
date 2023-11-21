@@ -18,11 +18,14 @@ module.exports = app => {
   //ABC szerint csökkenő sorrendben
   router.get("/titleDESC", tutorials.findAllTitleDESC);
 
+  router.get("/searchtitleORDERED/:searchWord:sortype", tutorials.searchTitleORDERED);
+
+
   router.get('/title/:searchWord', tutorials.findByTitle);
 
   router.get('/tags/:searchWord', tutorials.findByTags);
 
-  router.get('/description/:searchWord', tutorials.findByDescription);
+  router.get('/findbyDescription/:searchWord', tutorials.findByDescription);
 
   router.get('/latestcreated/', tutorials.findLatestCreated);
 

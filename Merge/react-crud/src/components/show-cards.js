@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import TutorialDataService from "../services/tutorial.service";
 
-//<Button variant="success" onClick={() => this.setState({ modalShow: this.state.modalShow(true), modalData: this.state.modalData(data)}) >Kártya megnyitása</Button>
 
 import 'bootstrap/dist/css/bootstrap.css';
 import Button from 'react-bootstrap/Button';
@@ -42,7 +41,7 @@ export default class ShowCards extends Component {
             plants: [],
             searchType: "",
             searchDescription: "",
-            filterType: "",
+            sortype: "DESC",
             activeItem: "1",
             modalData: [],
             editmodalData: [
@@ -89,13 +88,13 @@ export default class ShowCards extends Component {
       searchTitle() {
         if (this.state.searchType == "Főcím")
         {
-          TutorialDataService.findByTitle(this.state.searchTitle)
+          TutorialDataService.searchTitleORDERED(this.state.searchTitle, this.state.sortype)
           .then(response => {
-            alert("Anyád lefutosssk");
             this.setState({
               plants: response.data
             });
             console.log(response.data);
+            console.log(this.state.sortype);
           })
           .catch(e => {
             console.log(e);
@@ -108,6 +107,7 @@ export default class ShowCards extends Component {
               plants: response.data
             });
             console.log(response.data);
+            console.log(this.state.searchDescription);
           })
           .catch(e => {
             console.log(e);
@@ -217,6 +217,7 @@ export default class ShowCards extends Component {
 //pici margó a kártyák között
 //Címke példaadatok
 //Bakonnak csütörtök délután 4ig előadást
+//Tagek: évelő, hazánkban előfordul, illóolaj
         return(
             <div>
                     <Container className="col-lg-6">
@@ -237,8 +238,8 @@ export default class ShowCards extends Component {
                           <Dropdown className="">
                               <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
                               <DropdownMenu>
-                                <DropdownItem>ABC szerint csökkenő</DropdownItem>
-                                <DropdownItem>ABC szerint növekvő</DropdownItem>
+                                <DropdownItem onClick={() => this.setState({ sortype: "DESC"})}>ABC szerint csökkenő</DropdownItem>
+                                <DropdownItem onClick={() => this.setState({ sortype: "ASC"})}>ABC szerint növekvő</DropdownItem>
                                 <DropdownItem>Létrehozás dátuma</DropdownItem>
                                 <DropdownItem>Utolsó szerkesztés</DropdownItem>
                               </DropdownMenu>
@@ -252,20 +253,20 @@ export default class ShowCards extends Component {
                 <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={1} className="p-3">
                     <Container className="col-lg-6">
                       <Form.Label className="col-md-2 text-dark">{this.state.searchType + " " + this.state.searchType}</Form.Label>
-                      <Form.Control className="col-md-2 col-lg-3 mx-auto" type="text" placeholder="Címkék"/>
                     </Container>
                     <Container>
-                      <Col>
-                        <Button className="col-md-2 mx-auto" variant="success" onClick={this.searchTitle}>Hozzáad</Button>
-                        <Button className="col-md-2 mx-auto" variant="primary" onClick={this.retrievePlants}>Kiürít</Button>
+                      <Col xs="auto">
+                        <Button className="col-md-2 col-lg-auto mx-auto" variant="success">Évelő</Button>
+                        <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">Hazánkban előfordul</Button>
+                        <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">illóolaj</Button>
                       </Col>
 
                     </Container>
                 </Stack>
-                <Container>
+                <Container >
                     <Row className="justify-content-md-center">
                         {plants.map(data => (
-                        <Card key={data.id} style={{ width: '15rem' }}>
+                        <Card className="m-1" key={data.id} style={{ width: '15rem' }}>
                             <Card.Img variant="top" src="flower.jpg" />
                             <Card.Body>
                             <Card.Title>{data.title}</Card.Title>

@@ -115,10 +115,11 @@ exports.findAllTitleDESC = (req, res) => {
   });
 };
 
-exports.searchTitleDESC = (req, res) => { //title, abc csökkenő
+exports.searchTitleORDERED = (req, res) => { //title, abc csökkenő
   const searchWord = req.params.searchWord;
+  const sortype = req.params.sortype;
   Tutorial.findAll({
-    order: [['title', 'DESC']],
+    order: [['title', `%${sortype}%`]],
      where: {
        title: {
          [Sequelize.Op.like]: `%${searchWord}%`//
@@ -177,14 +178,14 @@ exports.findByTags = (req, res) => {
   });
 };
 
-exports.findByDescription = async (req, res) => {
+exports.findByDescription = (req, res) => {
   const searchWord = req.params.searchWord;
   //const sortype = ...
 
   Tutorial.findAll({
     where: {
       description: {
-        [Sequelize.Op.like]: `%${searchWord}%`
+        [Sequelize.Op.like]: `%${searchWord}%`//
       }
     }
   })
