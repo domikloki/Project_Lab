@@ -120,7 +120,7 @@ exports.searchTitle = (req, res) => {
   const sortype = req.params.sortype;
   //const searchtype = req.params.searchtype;
   Tutorial.findAll({
-    order: [['title', sortype]],
+    order: [['title', `%${sortype}%`]],
      where: {
        title: {
          [Sequelize.Op.like]: `%${searchWord}%`
