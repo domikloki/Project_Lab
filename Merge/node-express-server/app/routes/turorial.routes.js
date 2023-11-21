@@ -19,8 +19,7 @@ module.exports = app => {
   router.get("/titleDESC", tutorials.findAllTitleDESC);
 
   // Make sure the placeholders in the route match the parameters
-  router.get("/searchTitleORDERED/:searchWord/:sortype/:searchtype", tutorials.searchTitleORDERED);
-
+  router.get('/searchTitle/:searchWord/:sortype', tutorials.searchTitle);
 
   router.get('/title/:searchWord', tutorials.findByTitle);
 

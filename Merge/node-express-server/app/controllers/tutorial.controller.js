@@ -115,15 +115,15 @@ exports.findAllTitleDESC = (req, res) => {
   });
 };
 
-exports.searchTitleORDERED = (req, res) => { //title, abc csökkenő
+exports.searchTitle = (req, res) => {
   const searchWord = req.params.searchWord;
   const sortype = req.params.sortype;
-  const searchtype = req.params.searchtype;
+  //const searchtype = req.params.searchtype;
   Tutorial.findAll({
-    order: [['title', [sortype]]],
+    order: [['title', sortype]],
      where: {
-       [searchtype]: {
-         [Sequelize.Op.like]: `%${searchWord}%`//
+       title: {
+         [Sequelize.Op.like]: `%${searchWord}%`
        }
      }
     
@@ -181,14 +181,15 @@ exports.findByTags = (req, res) => {
 
 exports.findByDescription = (req, res) => {
   const searchWord = req.params.searchWord;
-  //const sortype = ...
+  const sortDirection = req.params.sortype === 'DESC' ? 'DESC' : 'ASC';
 
   Tutorial.findAll({
     where: {
-      description: {
-        [Sequelize.Op.like]: `%${searchWord}%`//
+      title: {
+        [Sequelize.Op.like]: `%${searchWord}%`
       }
-    }
+    },
+    order: [['title', sortDirection]]
   })
   .then(data => {
     res.send(data);
@@ -204,19 +205,20 @@ exports.findByDescription = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+  const sortDirection = sortype === 'DESC' ? 'DESC' : 'ASC';
 
-  Tutorial.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
+  Tutorial.findAll({
+    order: [['title', sortDirection]],
+    // ... rest of your query
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
     });
+  });
 };
 
 // Find a single Tutorial with an id

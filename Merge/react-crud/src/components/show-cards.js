@@ -87,7 +87,7 @@ export default class ShowCards extends Component {
       searchTitle() {
         if (this.state.searchType == "Főcím")
         {
-          TutorialDataService.searchTitleORDERED(this.state.searchTitle, this.state.sortype, "title")
+          TutorialDataService.searchTitle(this.state.searchTitle, this.state.sortype, "title")
           .then(response => {
             this.setState({
               plants: response.data
