@@ -118,10 +118,11 @@ exports.findAllTitleDESC = (req, res) => {
 exports.searchTitleORDERED = (req, res) => { //title, abc csökkenő
   const searchWord = req.params.searchWord;
   const sortype = req.params.sortype;
+  const searchtype = req.params.searchtype;
   Tutorial.findAll({
-    order: [['title', `%${sortype}%`]],
+    order: [['title', [sortype]]],
      where: {
-       title: {
+       [searchtype]: {
          [Sequelize.Op.like]: `%${searchWord}%`//
        }
      }

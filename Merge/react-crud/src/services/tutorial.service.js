@@ -37,9 +37,11 @@ class TutorialDataService {
     return http.get(`/noveny/titleASC`);
   }
 
-  searchTitleORDERED(title) {
-    return http.get(`/noveny?title=${title}`);
+  searchTitleORDERED(title, sortype, searchtype) {
+    return http.get(`noveny/searchTitleORDERED/${title}/${sortype}/${searchtype}`);
   }
+  
+  
 }
 
 export default new TutorialDataService();
