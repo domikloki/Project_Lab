@@ -205,10 +205,9 @@ exports.findByDescription = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const sortDirection = req.params.sortype = 'DESC';
 
   Tutorial.findAll({
-    order: [['title', 'DESC']],
+    order: [['title', `DESC`]],
     // ... rest of your query
   })
   .then(data => {
