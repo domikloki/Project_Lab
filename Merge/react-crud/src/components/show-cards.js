@@ -30,6 +30,8 @@ export default class ShowCards extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeTags = this.onChangeTags.bind(this);
         this.deletePlant = this.deletePlant.bind(this);
+        this.sTchange = this.sTchange.bind(this);
+
 
         this.state = {
             modalShow: false,
@@ -37,7 +39,8 @@ export default class ShowCards extends Component {
             editButton: "primary",
             editable: false,
             plants: [],
-            searchType: "Főcím",
+            searchType: "title",
+            searchTypeText: "Főcím",
             searchDescription: "",
             sortype: "DESC",
             ordertype: "title",
@@ -86,7 +89,7 @@ export default class ShowCards extends Component {
       }
 
       searchTitle() {
-        if (this.state.searchType == "Főcím")
+        if (this.state.searchTypeText == "Főcím")
         {
           TutorialDataService.searchTitle(this.state.searchTitle, this.state.sortype, this.state.ordertype)
           .then(response => {
@@ -103,7 +106,7 @@ export default class ShowCards extends Component {
             console.log(this.state.sortype);
             console.log(this.state.searchTitle);
           });
-        } else if (this.state.searchType == "Leírás")
+        } else if (this.state.searchTypeText == "Leírás")
         {
           TutorialDataService.searchTitle(this.state.searchTitle, this.state.sortype, this.state.ordertype)
           .then(response => {
@@ -218,6 +221,11 @@ export default class ShowCards extends Component {
         });
       }
 
+      sTchange() //searchType change
+      {
+        
+      } 
+
 
 
     render() {
@@ -233,10 +241,10 @@ export default class ShowCards extends Component {
                           <InputGroup className="mb-3">
                             <InputGroup.Text className="fs-4">
                               <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">{this.state.searchType}</Dropdown.Toggle>
+                                <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">{this.state.searchTypeText}</Dropdown.Toggle>
                                 <DropdownMenu>
-                                  <DropdownItem active={this.state.activeItem === "1"} onClick={() => this.setState({ searchType: "Főcím", ordertype:"title", activeItem: "1"})}>Főcím</DropdownItem>
-                                  <DropdownItem active={this.state.activeItem === "2"}  onClick={() => this.setState({ searchType: "Leírás", ordertype:"description", activeItem: "2"})}>Leírás</DropdownItem>
+                                  <DropdownItem active={this.state.activeItem === "1"} onClick={() => this.setState({ searchTypeText: "Főcím", searchType: "title", ordertype:"title", activeItem: "1"})}>Főcím</DropdownItem>
+                                  <DropdownItem active={this.state.activeItem === "2"}  onClick={() => this.setState({ searchTypeText: "Leírás", searchType: "description", ordertype:"description", activeItem: "2"})}>Leírás</DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
                             </InputGroup.Text>
@@ -247,22 +255,18 @@ export default class ShowCards extends Component {
 
                     </Container>
 
+                    <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
+                      <DropdownMenu>
+                        <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: this.state.searchType, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", ordertype: this.state.searchType, activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created", activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated", activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
+                      </DropdownMenu>
+                      <Button variant="success" onClick={this.searchTitle}>Keresés</Button>
+                      <Button variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                    </Dropdown>
 
-                    <Container>
-                      <Col className=" align-items-center">
-                        <Dropdown className="me-2">
-                          <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
-                          <DropdownMenu>
-                            <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: `${this.state.searchType}`, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
-                            <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", ordertype: `${this.state.searchType}`, activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
-                            <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created", activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
-                            <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated", activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                        <Button variant="success" onClick={this.searchTitle}>Keresés</Button>
-                        <Button variant="primary" onClick={this.retrievePlants}>Vissza</Button>
-                      </Col>
-                  </Container>
 
 
 
@@ -273,7 +277,7 @@ export default class ShowCards extends Component {
                 <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={0} className="p-3">
                     <Container>
                       <Col xs="auto">
-                        <Button className="col-md-2 col-lg-auto mx-auto" variant="success">Évelő</Button>
+                        <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">Évelő</Button>
                         <Button className="col-md-auto col-lg-auto mx-auto" variant="primary">Hazánkban előfordul</Button>
                         <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">illóolaj</Button>
                       </Col>
