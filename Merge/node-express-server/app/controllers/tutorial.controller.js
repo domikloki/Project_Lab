@@ -153,15 +153,25 @@ exports.searchDescription = (req, res) => {
   const searchWord = req.params.searchWord;
   const sortype = req.params.sortype;
   const ordertype = req.params.ordertype;
-  //const searchtype = req.params.searchtype;
-  Tutorial.findAll({
-    order: [[`${ordertype}`, `${sortype}`]],
-     where: {
-       description: {
-         [Sequelize.Op.like]: `%${searchWord}%`
-       }
-     }
 
+  let orderField = 'title'; // Default order field
+
+  // Change the order field based on ordertype value
+  if (ordertype === 'updated') {
+    orderField = 'updatedAt';
+  } else if (ordertype === 'created') {
+    orderField = 'createdAt';
+  } else if (ordertype === 'description') {
+    orderField = 'description';
+  }
+
+  Tutorial.findAll({
+    order: [[orderField, sortype]], // Dynamic order field and sort type
+    where: {
+      description: {
+        [Sequelize.Op.like]: `%${searchWord}%`
+      }
+    }
   })
   .then(data => {
     res.send(data);
@@ -220,7 +230,7 @@ exports.findByDescription = (req, res) => {
 
   Tutorial.findAll({
     where: {
-      title: {
+      description: {
         [Sequelize.Op.like]: `%${searchWord}%`
       }
     },
