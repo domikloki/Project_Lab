@@ -12,37 +12,41 @@ const { Console } = require("console");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     console.log("Destination Function Called");
-    cb(null, 'uploads'); // Update the path as needed
+    cb(null, 'uploads/'); // Update the path as needed
   },
   filename: (req, file, cb) => {
     console.log("Filename Function Called");
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
-console.log("Fut a kocsog");
-
 
 // Initialize Multer with the storage configuration
 const upload = multer({ storage: storage });
 
+// Use Multer to handle the image upload
+const uploadImage = upload.single('image');
+
 exports.create = (req, res) => {
-  console.log("create");
   // Validate request
+  console.log("Request Body:", {
+    title: req.body.title,
+    tags: req.body.tags,
+    description: req.body.description,
+    image: req.file ? req.file.path : null, // Access the file path if it exists
+  });
+  
+  
+  console.log("Request File:", req.file);
+
   if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
+    console.log("validation error")
   }
 
   // Use Multer to handle the image upload
-  const uploadImage = upload.single('image'); // 'image' should match the field name in the client-side form
-
   uploadImage(req, res, (err) => {
-    console.log("upload");
     if (err) {
       return res.status(500).send({
-        message: "Error uploading image."
+        message: "Error uploading image"
       });
     }
 
@@ -58,15 +62,18 @@ exports.create = (req, res) => {
     Tutorial.create(tutorial)
       .then(data => {
         res.send(data);
-        console.log("tutorial.create");
       })
       .catch(err => {
         res.status(500).send({
-          message: err.message || "Some error occurred while creating the Tutorial."
+          message: err.message || "Some error occurred while creating the tutorial."
         });
       });
   });
 };
+
+
+
+
 
 
 
