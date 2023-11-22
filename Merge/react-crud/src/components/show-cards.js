@@ -97,8 +97,6 @@ export default class ShowCards extends Component {
               plants: response.data
             });
             console.log(response.data);
-            console.log(this.state.sortype);
-            console.log(this.state.searchTitle);
             console.log(this.state);
           })
           .catch(e => {
@@ -108,20 +106,17 @@ export default class ShowCards extends Component {
           });
         } else if (this.state.searchTypeText == "Leírás")
         {
-          TutorialDataService.searchTitle(this.state.searchTitle, this.state.sortype, this.state.ordertype)
+          TutorialDataService.searchDescription(this.state.searchTitle, this.state.sortype, this.state.ordertype)
           .then(response => {
             this.setState({
               plants: response.data
             });
             console.log(response.data);
-            console.log(this.state.sortype);
-            console.log(this.state.searchTitle);
             console.log(this.state);
           })
           .catch(e => {
             console.log(e);
-            console.log(this.state.sortype);
-            console.log(this.state.searchTitle);
+            console.log(this.state.ordertype)
           });
         }
       }
