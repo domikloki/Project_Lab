@@ -21,6 +21,8 @@ module.exports = app => {
   // Make sure the placeholders in the route match the parameters
   router.get('/searchTitle/:searchWord/:sortype', tutorials.searchTitle);
 
+  router.get('/searchDescription/:searchWord/:sortype', tutorials.searchDescription);
+
   router.get('/title/:searchWord', tutorials.findByTitle);
 
   router.get('/tags/:searchWord', tutorials.findByTags);

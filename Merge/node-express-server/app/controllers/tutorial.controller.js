@@ -138,6 +138,29 @@ exports.searchTitle = (req, res) => {
   });
 };
 
+exports.searchDescription = (req, res) => {
+  const searchWord = req.params.searchWord;
+  const sortype = req.params.sortype;
+  //const searchtype = req.params.searchtype;
+  Tutorial.findAll({
+    order: [['description', `${sortype}`]],
+     where: {
+       description: {
+         [Sequelize.Op.like]: `%${searchWord}%`
+       }
+     }
+
+  })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  });
+};
+
 exports.findByTitle = (req, res) => {
   const searchWord = req.params.searchWord;
   //const sortype = ...

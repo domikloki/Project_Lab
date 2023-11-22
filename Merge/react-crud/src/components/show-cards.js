@@ -103,7 +103,7 @@ export default class ShowCards extends Component {
           });
         } else if (this.state.searchType == "Leírás")
         {
-          TutorialDataService.findByDescription(this.state.searchDescription)
+          TutorialDataService.searchDescription(this.state.searchTitle, this.state.sortype)
           .then(response => {
             this.setState({
               plants: response.data
