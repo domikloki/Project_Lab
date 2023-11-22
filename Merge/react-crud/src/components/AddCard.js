@@ -17,8 +17,7 @@ export default class AddTutorial extends Component {
       title: "",
       tags: "",
       description: "", 
-
-
+      picture: null,
       submitted: false
     };
   }
@@ -41,11 +40,18 @@ export default class AddTutorial extends Component {
     });
   }
 
+  onChangeImage(e) {
+    this.setState({
+      picture: e.target.files[0]
+    });
+  }
+
   saveTutorial() {
     var data = {
       title: this.state.title,
       tags: this.state.tags,
-      description: this.state.description
+      description: this.state.description,
+      picture: this.state.picture
     };
 
     TutorialDataService.create(data)
@@ -71,6 +77,7 @@ export default class AddTutorial extends Component {
       title: "",
       tags: "",
       description: "",
+      picture: null,
 
       submitted: false
     });
@@ -105,8 +112,8 @@ export default class AddTutorial extends Component {
                 <Form.Control as="textarea" rows={3} required value={this.state.description} id="description" onChange={this.onChangeDescription}/>
             </Form.Group>
             <Form.Group controlId="formFile" className="col-lg-4 p-3">
-                <Form.Label className="fw-bold text-dark">Kép feltöltése</Form.Label>
-                <Form.Control type="file" />
+                <Form.Label onChange={this.onChangeImage} className="fw-bold text-dark">Kép feltöltése</Form.Label>
+                <Form.Control type="file" name="image"/>
             </Form.Group>
             <button onClick={this.saveTutorial} className="btn btn-success mb-3">
               Hozzáadás

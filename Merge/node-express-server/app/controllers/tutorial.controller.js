@@ -3,8 +3,30 @@ const Tutorial = db.tutorials;
 const Op = db.Sequelize.Op;
 const { Sequelize } = require('sequelize');
 
-// Create and Save a new Tutorial
+// Require Multer
+const multer = require('multer');
+const path = require('path');
+const { Console } = require("console");
+
+// Set up storage for Multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    console.log("Destination Function Called");
+    cb(null, 'uploads'); // Update the path as needed
+  },
+  filename: (req, file, cb) => {
+    console.log("Filename Function Called");
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+console.log("Fut a kocsog");
+
+
+// Initialize Multer with the storage configuration
+const upload = multer({ storage: storage });
+
 exports.create = (req, res) => {
+  console.log("create");
   // Validate request
   if (!req.body.title) {
     res.status(400).send({
@@ -13,26 +35,42 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Tutorial
-  const tutorial = {
-    title: req.body.title,
-    description: req.body.description,
-    tags: req.body.tags,
-    published: req.body.published ? req.body.published : false
-  };
+  // Use Multer to handle the image upload
+  const uploadImage = upload.single('image'); // 'image' should match the field name in the client-side form
 
-  // Save Tutorial in the database
-  Tutorial.create(tutorial)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial."
+  uploadImage(req, res, (err) => {
+    console.log("upload");
+    if (err) {
+      return res.status(500).send({
+        message: "Error uploading image."
       });
-    });
+    }
+
+    // Create a Tutorial
+    const tutorial = {
+      title: req.body.title,
+      description: req.body.description,
+      tags: req.body.tags,
+      picture: req.file ? req.file.path : null // Store the image path in the database
+    };
+
+    // Save Tutorial in the database
+    Tutorial.create(tutorial)
+      .then(data => {
+        res.send(data);
+        console.log("tutorial.create");
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating the Tutorial."
+        });
+      });
+  });
 };
+
+
+
+
 
 exports.sortByTime = (req, res) => {
   const title = req.query.title;
