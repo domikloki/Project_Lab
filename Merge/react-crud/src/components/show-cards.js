@@ -40,6 +40,7 @@ export default class ShowCards extends Component {
             searchType: "Főcím",
             searchDescription: "",
             sortype: "DESC",
+            ordertype: "",
             activeItem: "1",
             activeItemsec: "1",
             modalData: [],
@@ -87,7 +88,7 @@ export default class ShowCards extends Component {
       searchTitle() {
         if (this.state.searchType == "Főcím")
         {
-          TutorialDataService.searchTitle(this.state.searchTitle, this.state.sortype)
+          TutorialDataService.searchTitle(this.state.searchTitle, this.state.sortype, this.state.ordertype)
           .then(response => {
             this.setState({
               plants: response.data
@@ -95,6 +96,7 @@ export default class ShowCards extends Component {
             console.log(response.data);
             console.log(this.state.sortype);
             console.log(this.state.searchTitle);
+            console.log(this.state);
           })
           .catch(e => {
             console.log(e);
@@ -229,8 +231,8 @@ export default class ShowCards extends Component {
                               <Dropdown>
                                 <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">{this.state.searchType}</Dropdown.Toggle>
                                 <DropdownMenu>
-                                  <DropdownItem active={this.state.activeItem === "1"} onClick={() => this.setState({ searchType: "Főcím", activeItem: "1"})}>Főcím</DropdownItem>
-                                  <DropdownItem active={this.state.activeItem === "2"}  onClick={() => this.setState({ searchType: "Leírás",  activeItem: "2"})}>Leírás</DropdownItem>
+                                  <DropdownItem active={this.state.activeItem === "1"} onClick={() => this.setState({ searchType: "Főcím", ordertype:"title", activeItem: "1"})}>Főcím</DropdownItem>
+                                  <DropdownItem active={this.state.activeItem === "2"}  onClick={() => this.setState({ searchType: "Leírás", ordertype:"description", activeItem: "2"})}>Leírás</DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
                             </InputGroup.Text>
@@ -247,10 +249,10 @@ export default class ShowCards extends Component {
                           <Dropdown className="me-2">
                             <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
                             <DropdownMenu>
-                              <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
-                              <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
-                              <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
-                              <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
+                              <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: `${this.state.searchType}`, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
+                              <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", ordertype: `${this.state.searchType}`, activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
+                              <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created",activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
+                              <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated",activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
                             </DropdownMenu>
                           </Dropdown>
                           <Button className="col-md-3 col-lg-1 mx-auto" variant="success" onClick={this.searchTitle}>Keresés</Button>

@@ -37,8 +37,12 @@ class TutorialDataService {
     return http.get(`/noveny/titleASC`);
   }
 
-  searchTitle(title, sortype) {
-    return http.get(`/noveny/searchTitle/${title}/${sortype}`);
+  searchTitle(title, sortype, ordertype) {
+    console.log("ez a searchTitle");
+    console.log(title);
+    console.log(sortype);
+    console.log(ordertype);
+    return http.get(`/noveny/searchTitle/${title}/${sortype}/${ordertype}`);
   }
   
   searchDescription(description, sortype) {
