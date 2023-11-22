@@ -247,22 +247,18 @@ export default class ShowCards extends Component {
 
                     </Container>
 
+                    <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
+                      <DropdownMenu>
+                        <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: `${this.state.searchType}`, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", ordertype: `${this.state.searchType}`, activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created", activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated", activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
+                      </DropdownMenu>
+                      <Button variant="success" onClick={this.searchTitle}>Keresés</Button>
+                      <Button variant="primary" onClick={this.retrievePlants}>Vissza</Button>
+                    </Dropdown>
 
-                    <Container>
-                      <Col className=" align-items-center">
-                        <Dropdown className="me-2">
-                          <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
-                          <DropdownMenu>
-                            <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: `${this.state.searchType}`, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
-                            <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", ordertype: `${this.state.searchType}`, activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
-                            <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created", activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
-                            <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated", activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                        <Button variant="success" onClick={this.searchTitle}>Keresés</Button>
-                        <Button variant="primary" onClick={this.retrievePlants}>Vissza</Button>
-                      </Col>
-                  </Container>
 
 
 
@@ -273,7 +269,7 @@ export default class ShowCards extends Component {
                 <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={0} className="p-3">
                     <Container>
                       <Col xs="auto">
-                        <Button className="col-md-2 col-lg-auto mx-auto" variant="success">Évelő</Button>
+                        <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">Évelő</Button>
                         <Button className="col-md-auto col-lg-auto mx-auto" variant="primary">Hazánkban előfordul</Button>
                         <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">illóolaj</Button>
                       </Col>
