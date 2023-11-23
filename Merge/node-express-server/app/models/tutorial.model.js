@@ -22,5 +22,6 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
+
   return Noveny;
 };
