@@ -1,13 +1,15 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
+const corsOptions = {
+  origin: '*'
 };
-
 app.use(cors(corsOptions));
+
+
+
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -32,7 +34,7 @@ db.sequelize.sync()
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to Backend port 8080." });
 });
 
 require("./app/routes/turorial.routes")(app);

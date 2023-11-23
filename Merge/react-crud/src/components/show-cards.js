@@ -255,8 +255,8 @@ export default class ShowCards extends Component {
                       <DropdownMenu>
                         <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: this.state.searchType, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
                         <DropdownItem active={this.state.activeItemsec === "2"} onClick={() => this.setState({ sortype: "ASC", ordertype: this.state.searchType, activeItemsec: "2"})}>ABC szerint növekvő</DropdownItem>
-                        <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created", activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
-                        <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated", activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "3"} onClick={() => this.setState({ ordertype: "created", ordertype: this.state.searchType, activeItemsec: "3"})}>Létrehozás dátuma</DropdownItem>
+                        <DropdownItem active={this.state.activeItemsec === "4"} onClick={() => this.setState({ ordertype: "updated", ordertype: this.state.searchType, activeItemsec: "4"})}>Utolsó szerkesztés</DropdownItem>
                       </DropdownMenu>
                       <Button variant="success" onClick={this.searchTitle}>Keresés</Button>
                       <Button variant="primary" onClick={this.retrievePlants}>Vissza</Button>

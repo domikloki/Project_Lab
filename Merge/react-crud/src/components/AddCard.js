@@ -11,14 +11,15 @@ export default class AddTutorial extends Component {
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.saveTutorial = this.saveTutorial.bind(this);
     this.newPlant = this.newPlant.bind(this);
+    this.onChangeImage = this.onChangeImage.bind(this);
+
 
     this.state = {
       id: null,
       title: "",
       tags: "",
       description: "", 
-
-
+      picture: null,
       submitted: false
     };
   }
@@ -41,12 +42,26 @@ export default class AddTutorial extends Component {
     });
   }
 
+  onChangeImage(e) {
+    console.log("Image Upload");
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+  
+    this.setState({
+      picture: formData,
+    });
+  }
+  
+  
+
   saveTutorial() {
-    var data = {
-      title: this.state.title,
-      tags: this.state.tags,
-      description: this.state.description
-    };
+    const data = new FormData();
+    data.append('title', this.state.title);
+    data.append('tags', this.state.tags);
+    data.append('description', this.state.description);
+    data.append('image', this.state.picture);
+  
+    console.log("FormData:", data);
 
     TutorialDataService.create(data)
       .then(response => {
@@ -55,7 +70,6 @@ export default class AddTutorial extends Component {
           title: response.data.title,
           tags: response.data.tags,
           description: response.data.description,
-
           submitted: true
         });
         console.log(response.data);
@@ -64,6 +78,12 @@ export default class AddTutorial extends Component {
         console.log(e);
       });
   }
+  
+  
+  
+  
+  
+  
 
   newPlant() {
     this.setState({
@@ -71,6 +91,7 @@ export default class AddTutorial extends Component {
       title: "",
       tags: "",
       description: "",
+      picture: null,
 
       submitted: false
     });
@@ -91,23 +112,24 @@ export default class AddTutorial extends Component {
             </Modal.Header>
           </Modal>
         ) : (
-          <Form style={{ fontFamily: 'georgia, sans-serif' }} className="d-flex flex-column align-items-center mb-3">
-            <Form.Group className="col-lg-4" controlId="input_title">
+          <Form encType="multipart/form-data" style={{ fontFamily: 'georgia, sans-serif' }} className="d-flex flex-column align-items-center mb-3">
+            <Form.Group className="col-lg-4" >
                 <Form.Label className="fw-bold text-dark">Főcím</Form.Label>
                 <Form.Control type="textarea" placeholder="" name="title" id="title" required value={this.state.title} onChange={this.onChangeTitle}/>
             </Form.Group>
-            <Form.Group className="col-lg-4" controlId="input_tag">
+            <Form.Group className="col-lg-4" >
                 <Form.Label className="fw-bold text-dark">Címkék</Form.Label>
                 <Form.Control type="text" placeholder="" name="tags" id="tags" required value={this.state.tags} onChange={this.onChangeTags}/>
             </Form.Group>
-            <Form.Group className="col-lg-4" controlId="exampleForm.ControlTextarea1">
+            <Form.Group className="col-lg-4" >
                 <Form.Label className="fw-bold text-dark">Leírás</Form.Label>
                 <Form.Control as="textarea" rows={3} required value={this.state.description} id="description" onChange={this.onChangeDescription}/>
             </Form.Group>
-            <Form.Group controlId="formFile" className="col-lg-4 p-3">
+            <Form.Group  className="col-lg-4 p-3">
                 <Form.Label className="fw-bold text-dark">Kép feltöltése</Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" id="imagefile" onChange={this.onChangeImage} />
             </Form.Group>
+
             <button onClick={this.saveTutorial} className="btn btn-success mb-3">
               Hozzáadás
             </button>

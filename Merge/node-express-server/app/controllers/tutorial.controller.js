@@ -3,36 +3,81 @@ const Tutorial = db.tutorials;
 const Op = db.Sequelize.Op;
 const { Sequelize } = require('sequelize');
 
-// Create and Save a new Tutorial
+// Require Multer
+const multer = require('multer');
+const path = require('path');
+const { Console } = require("console");
+
+// Set up storage for Multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    console.log("Destination Function Called");
+    cb(null, 'uploads/'); // Update the path as needed
+  },
+  filename: (req, file, cb) => {
+    console.log("Filename Function Called");
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+// Initialize Multer with the storage configuration
+const upload = multer({ storage: storage });
+
+// Use Multer to handle the image upload
+const uploadImage = upload.single('image');
+
 exports.create = (req, res) => {
   // Validate request
+  console.log("Request Body:", {
+    title: req.body.title,
+    tags: req.body.tags,
+    description: req.body.description,
+    image: req.file ? req.file.path : null, // Access the file path if it exists
+  });
+  
+  
+  console.log("Request File:", req.file);
+
   if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
+    console.log("validation error")
   }
 
-  // Create a Tutorial
-  const tutorial = {
-    title: req.body.title,
-    description: req.body.description,
-    tags: req.body.tags,
-    published: req.body.published ? req.body.published : false
-  };
-
-  // Save Tutorial in the database
-  Tutorial.create(tutorial)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial."
+  // Use Multer to handle the image upload
+  uploadImage(req, res, (err) => {
+    if (err) {
+      return res.status(500).send({
+        message: "Error uploading image"
       });
-    });
+    }
+
+    // Create a Tutorial
+    const tutorial = {
+      title: req.body.title,
+      description: req.body.description,
+      tags: req.body.tags,
+      picture: req.file ? req.file.path : null // Store the image path in the database
+    };
+
+    // Save Tutorial in the database
+    Tutorial.create(tutorial)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating the tutorial."
+        });
+      });
+  });
 };
+
+
+
+
+
+
+
+
 
 exports.sortByTime = (req, res) => {
   const title = req.query.title;
@@ -153,15 +198,25 @@ exports.searchDescription = (req, res) => {
   const searchWord = req.params.searchWord;
   const sortype = req.params.sortype;
   const ordertype = req.params.ordertype;
-  //const searchtype = req.params.searchtype;
-  Tutorial.findAll({
-    order: [[`${ordertype}`, `${sortype}`]],
-     where: {
-       description: {
-         [Sequelize.Op.like]: `%${searchWord}%`
-       }
-     }
 
+  let orderField = 'title'; // Default order field
+
+  // Change the order field based on ordertype value
+  if (ordertype === 'updated') {
+    orderField = 'updatedAt';
+  } else if (ordertype === 'created') {
+    orderField = 'createdAt';
+  } else if (ordertype === 'description') {
+    orderField = 'description';
+  }
+
+  Tutorial.findAll({
+    order: [[orderField, sortype]], // Dynamic order field and sort type
+    where: {
+      description: {
+        [Sequelize.Op.like]: `%${searchWord}%`
+      }
+    }
   })
   .then(data => {
     res.send(data);
@@ -220,7 +275,7 @@ exports.findByDescription = (req, res) => {
 
   Tutorial.findAll({
     where: {
-      title: {
+      description: {
         [Sequelize.Op.like]: `%${searchWord}%`
       }
     },
