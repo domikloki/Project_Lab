@@ -3,6 +3,7 @@ import TutorialDataService from "../services/tutorial.service";
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal'
 
+
 export default class AddTutorial extends Component {
   constructor(props) {
     super(props);
@@ -44,27 +45,31 @@ export default class AddTutorial extends Component {
 
   onChangeImage(e) {
     console.log("Image Upload");
-    const formData = new FormData();
-    formData.append('image', e.target.files[0]);
-  
     this.setState({
-      picture: formData,
+      picture: e.target.files[0]
+    }, () => {
+      console.log(this.state.picture);
     });
   }
   
   
+  
 
   saveTutorial() {
-    const data = new FormData();
-    data.append('title', this.state.title);
-    data.append('tags', this.state.tags);
-    data.append('description', this.state.description);
-    data.append('image', this.state.picture);
+    const formdata = new FormData();
+    formdata.append('title', this.state.title);
+    formdata.append('tags', this.state.tags);
+    formdata.append('description', this.state.description);
+    formdata.append('image', this.state.picture);
   
-    console.log("FormData:", data);
-
-    TutorialDataService.create(data)
+    for (const entry of formdata.entries()) {
+      console.log(entry);
+    }
+    console.log("State in saveTutorial:", this.state);
+  
+    TutorialDataService.create(formdata)
       .then(response => {
+        console.log("Axios Request Headers:", response.config.headers);
         this.setState({
           id: response.data.id,
           title: response.data.title,
@@ -72,7 +77,7 @@ export default class AddTutorial extends Component {
           description: response.data.description,
           submitted: true
         });
-        console.log(response.data);
+        console.log("Axios Request Data:", response.config.data);
       })
       .catch(e => {
         console.log(e);

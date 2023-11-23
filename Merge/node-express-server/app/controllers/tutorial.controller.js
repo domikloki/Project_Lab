@@ -7,12 +7,20 @@ const { Sequelize } = require('sequelize');
 const multer = require('multer');
 const path = require('path');
 const { Console } = require("console");
+const fs = require('fs');
+
+// Ensure 'uploads/' directory exists
+const uploadDirectory = 'uploads/';
+if (!fs.existsSync(uploadDirectory)) {
+  console.log(`Creating directory: ${uploadDirectory}`);
+  fs.mkdirSync(uploadDirectory);
+}
 
 // Set up storage for Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log("Destination Function Called");
-    cb(null, 'uploads/'); // Update the path as needed
+    console.log("Desctination Function Called");
+    cb(null, uploadDirectory);
   },
   filename: (req, file, cb) => {
     console.log("Filename Function Called");
@@ -26,7 +34,9 @@ const upload = multer({ storage: storage });
 // Use Multer to handle the image upload
 const uploadImage = upload.single('image');
 
+
 exports.create = (req, res) => {
+  
   // Validate request
   console.log("Request Body:", {
     title: req.body.title,
