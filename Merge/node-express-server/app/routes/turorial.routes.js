@@ -9,7 +9,7 @@ module.exports = app => {
   // Retrieve all Tutorials
   router.get("/", tutorials.findAll);
 
-  //megtalálja a 3 utoljára szerkesztettet
+  //megtalálja a 3 utoljára szerkesztettetü
   router.get("/latest", tutorials.findLatest);
 
   //ABC szerint növekvő sorrendben összes

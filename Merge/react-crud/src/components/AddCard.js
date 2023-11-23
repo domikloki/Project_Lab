@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import TutorialDataService from "../services/tutorial.service";
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
+import axios from "axios";
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:8081/api/noveny',  // Make sure the baseURL includes the correct path
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 
 
 export default class AddTutorial extends Component {
@@ -45,8 +52,11 @@ export default class AddTutorial extends Component {
 
   onChangeImage(e) {
     console.log("Image Upload");
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+  
     this.setState({
-      picture: e.target.files[0]
+      picture: e.target.files[0],
     }, () => {
       console.log(this.state.picture);
     });
@@ -56,18 +66,18 @@ export default class AddTutorial extends Component {
   
 
   saveTutorial() {
-    const formdata = new FormData();
-    formdata.append('title', this.state.title);
-    formdata.append('tags', this.state.tags);
-    formdata.append('description', this.state.description);
-    formdata.append('image', this.state.picture);
+    const data = new FormData();
+    data.append('title', this.state.title);
+    data.append('tags', this.state.tags);
+    data.append('description', this.state.description);
+    data.append('image', this.state.picture);
   
-    for (const entry of formdata.entries()) {
+    for (const entry of data.entries()) {
       console.log(entry);
     }
     console.log("State in saveTutorial:", this.state);
   
-    TutorialDataService.create(formdata)
+    TutorialDataService.create(data)
       .then(response => {
         console.log("Axios Request Headers:", response.config.headers);
         this.setState({
@@ -132,7 +142,7 @@ export default class AddTutorial extends Component {
             </Form.Group>
             <Form.Group  className="col-lg-4 p-3">
                 <Form.Label className="fw-bold text-dark">Kép feltöltése</Form.Label>
-                <Form.Control type="file" id="imagefile" onChange={this.onChangeImage} />
+                <Form.Control type="file" id="image" onChange={this.onChangeImage} />
             </Form.Group>
 
             <button onClick={this.saveTutorial} className="btn btn-success mb-3">
