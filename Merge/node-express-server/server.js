@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/turorial.routes")(app);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log('Full path for serving uploads:', path.join(__dirname, 'uploads'));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

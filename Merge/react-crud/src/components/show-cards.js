@@ -51,7 +51,8 @@ export default class ShowCards extends Component {
                 {                
                     title: "",
                     description: "",
-                    tags: ""
+                    tags: "",
+                    picture: null
                 }
             ]
         };
@@ -285,7 +286,7 @@ export default class ShowCards extends Component {
                     <Row className="justify-content-md-center">
                         {plants.map(data => (
                         <Card className="m-1" key={data.id} style={{ width: '15rem' }}>
-                            <Card.Img variant="top" src="flower.jpg" />
+                            <Card.Img variant="top" src={data.picture ? `http://localhost:8080/${data.picture}` : 'flower.jpg'} />
                             <Card.Body>
                             <Card.Title>{data.title}</Card.Title>
                             <Card.Text>{data.tags}</Card.Text>
@@ -308,7 +309,7 @@ export default class ShowCards extends Component {
                                 <Container className='modalimage'>
                                     <Row className="justify-content-md-center">
                                         <Col xs lg="7">
-                                            <Image xs lg="7" className="justify-content-md-center" src="flower.jpg" fluid/>
+                                            <Image xs lg="7" className="justify-content-md-center" src={this.state.modalData.picture ? `uploads/${this.state.modalData.picture}` : "flower.jpg"} fluid/>
                                         </Col>
                                     </Row>
                                     <Form.Control as="textarea" className="w-100" rows={3} id="cardDescription" placeholder="Leírás" onChange={this.onChangeDescription} value={this.state.editmodalData.description} />
@@ -340,7 +341,7 @@ export default class ShowCards extends Component {
                                 <Container className='modalimage'>
                                     <Row className="justify-content-md-center">
                                         <Col xs lg="7">
-                                            <Image xs lg="7" className="justify-content-md-center" src="flower.jpg" fluid/>
+                                            <Image xs lg="7" className="justify-content-md-center" src={this.state.modalData.picture ? `http://localhost:8080/${this.state.modalData.picture}` : 'flower.jpg'} fluid/>
                                         </Col>
                                     </Row>
                                     <h5 className="text-break">{this.state.modalData.description}</h5>

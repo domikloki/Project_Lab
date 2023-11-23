@@ -124,6 +124,7 @@ export default class AddTutorial extends Component {
               <Modal.Title id="contained-modal-title-vcenter">
                 Sikeres hozzáadás!
               </Modal.Title>
+              <button className="btn btn-success" onClick={this.newPlant}>Új kártya</button>
             </Modal.Header>
           </Modal>
         ) : (
@@ -138,7 +139,7 @@ export default class AddTutorial extends Component {
             </Form.Group>
             <Form.Group className="col-lg-4" >
                 <Form.Label className="fw-bold text-dark">Leírás</Form.Label>
-                <Form.Control as="textarea" rows={3} required value={this.state.description} id="description" onChange={this.onChangeDescription}/>
+                <Form.Control as="textarea" rows={3} required value={this.state.description} name="description" id="description" onChange={this.onChangeDescription}/>
             </Form.Group>
             <Form.Group  className="col-lg-4 p-3">
                 <Form.Label className="fw-bold text-dark">Kép feltöltése</Form.Label>

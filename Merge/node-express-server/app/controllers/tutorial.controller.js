@@ -20,7 +20,7 @@ const { Console } = require("console");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     console.log("Desctination Function Called");
-    cb(null, 'uploads/');
+    cb(null, 'uploads');
   },
   filename: (req, file, cb) => {
     console.log("Filename Function Called");
