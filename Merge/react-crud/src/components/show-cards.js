@@ -30,7 +30,7 @@ export default class ShowCards extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeTags = this.onChangeTags.bind(this);
         this.deletePlant = this.deletePlant.bind(this);
-        this.sTchange = this.sTchange.bind(this);
+
 
 
         this.state = {
@@ -51,8 +51,7 @@ export default class ShowCards extends Component {
                 {                
                     title: "",
                     description: "",
-                    tags: "",
-                    
+                    tags: ""
                 }
             ]
         };
@@ -146,10 +145,10 @@ export default class ShowCards extends Component {
       }
 
       updatePlant() {
-        TutorialDataService.update(
-          this.state.editmodalData.id,
-          this.state.editmodalData
-        )
+        console.log(this.state.editmodalData);
+        const { id, title, description, tags } = this.state.editmodalData;
+      
+        TutorialDataService.update(id, { title, description, tags })
           .then(response => {
             console.log(response.data);
             this.refreshList();
@@ -158,6 +157,7 @@ export default class ShowCards extends Component {
             console.log(e);
           });
       }
+      
 
       onChangeTitle(e)
       {
@@ -217,21 +217,15 @@ export default class ShowCards extends Component {
         });
       }
 
-      sTchange() //searchType change
-      {
-        
-      } 
 
 
 
     render() {
         const { plants, searchTitle, editButton } = this.state;
-//pici margó a kártyák között
-//Címke példaadatok
-//Bakonnak csütörtök délután 4ig előadást
-//Tagek: évelő, hazánkban előfordul, illóolaj
+
         return(
             <div>
+
                     <Container className="col-lg-6">
                         <Row xs="auto" className="d-flex align-items-center">
                           <InputGroup className="mb-3">
@@ -286,12 +280,12 @@ export default class ShowCards extends Component {
                     <Row className="justify-content-md-center">
                         {plants.map(data => (
                         <Card className="m-1" key={data.id} style={{ width: '11rem' }}>
-                            <Card.Img variant="top" src={data.picture ? `http://192.168.139.172:8080/${data.picture}` : 'flower.jpg'} style={{ maxWidth: '250px', maxHeight: '150px' }}/>
+                            <Card.Img variant="top" src={data.picture ? `http://localhost:8080/${data.picture}` : 'flower.jpg'} style={{ maxWidth: '250px', maxHeight: '150px' }}/>
                             <Card.Body>
                             <Card.Title>{data.title}</Card.Title>
                             <Card.Text>{data.tags}</Card.Text>
-                            <Button variant="success" onClick={() => this.setState({ modalShow: true, modalData: data, editmodalData: data})} >Kártya megnyitása</Button>
                         </Card.Body>  
+                        <Button variant="success" onClick={() => this.setState({ modalShow: true, modalData: data, editmodalData: data})} >Kártya megnyitása</Button>
                         </Card>
                         ))}
                     </Row>
@@ -309,7 +303,7 @@ export default class ShowCards extends Component {
                                 <Container className='modalimage'>
                                     <Row className="justify-content-md-center">
                                         <Col xs lg="7">
-                                            <Image xs lg="7" className="justify-content-md-center" src={this.state.editmodalData.picture ? `http://192.168.139.172:8080/${this.state.editmodalData.picture}` : "flower.jpg"} fluid/>
+                                            <Image xs lg="7" className="justify-content-md-center" src={this.state.editmodalData.picture ? `http://localhost:8080/${this.state.editmodalData.picture}` : "flower.jpg"} fluid/>
                                         </Col>
                                     </Row>
                                     <Form.Control as="textarea" className="w-100" rows={3} id="cardDescription" placeholder="Leírás" onChange={this.onChangeDescription} value={this.state.editmodalData.description} />
@@ -321,8 +315,8 @@ export default class ShowCards extends Component {
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => this.setState({ modalShow: false}, this.editButtonChange)}>Bezár</Button>
-                                <Button variant={editButton} onClick={() => this.setState(this.editButtonChange)}>Szerkesztés</Button>
-                                <Button onClick={() => this.setState(this.updatePlant) }>Mentés</Button>
+                                <Button variant={editButton} onClick={() => this.setState(() => this.editButtonChange())}>Szerkesztés</Button>
+                                <Button onClick={() => this.setState(() => this.updatePlant())}>Mentés</Button>
                                 <Button variant="danger" onClick={this.deletePlant}>Törlés</Button>
                             </Modal.Footer>
                         </Modal>
@@ -341,7 +335,7 @@ export default class ShowCards extends Component {
                                 <Container className='modalimage'>
                                     <Row className="justify-content-md-center">
                                         <Col xs lg="7">
-                                            <Image xs lg="7" className="justify-content-md-center" src={this.state.modalData.picture ? `http://192.168.139.172:8080/${this.state.modalData.picture}` : 'flower.jpg'} fluid/>
+                                            <Image xs lg="7" className="justify-content-md-center" src={this.state.modalData.picture ? `http://localhost:8080/${this.state.modalData.picture}` : 'flower.jpg'} fluid/>
                                         </Col>
                                     </Row>
                                     <h5 className="text-break">{this.state.modalData.description}</h5>
@@ -350,7 +344,7 @@ export default class ShowCards extends Component {
 
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => this.setState({ modalShow: false, editable: false})}>Bezár</Button>
-                                <Button onClick={() => this.setState(this.editButtonChange)}>Szerkesztés</Button>
+                                <Button onClick={() => this.setState(() => this.editButtonChange())}>Szerkesztés</Button>
                             </Modal.Footer>
                         </Modal>
                 )}
