@@ -1,8 +1,5 @@
 import http from "../http-common";
-const axiosInstance = http.create();
 
-// Set the default headers for the instance
-axiosInstance.defaults.headers['Content-Type'] = 'multipart/form-data';
 
 class TutorialDataService {
   getAll() {

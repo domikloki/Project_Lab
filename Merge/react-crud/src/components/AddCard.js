@@ -2,13 +2,7 @@ import React, { Component } from "react";
 import TutorialDataService from "../services/tutorial.service";
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import axios from "axios";
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8081/api/noveny',  // Make sure the baseURL includes the correct path
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-});
+
 
 
 export default class AddTutorial extends Component {

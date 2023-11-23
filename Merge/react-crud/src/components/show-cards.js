@@ -148,7 +148,7 @@ export default class ShowCards extends Component {
         console.log(this.state.editmodalData);
         const { id, title, description, tags } = this.state.editmodalData;
       
-        TutorialDataService.update(id, { title, description, tags })
+        TutorialDataService.update(id, this.state.editmodalData)
           .then(response => {
             console.log(response.data);
             this.refreshList();
@@ -245,7 +245,7 @@ export default class ShowCards extends Component {
 
                     </Container>
 
-                    <Dropdown>
+                    <Dropdown className="p-3">
                       <Dropdown.Toggle variant="success" id="dropdown-autoclose-true">Rendezés</Dropdown.Toggle>
                       <DropdownMenu>
                         <DropdownItem active={this.state.activeItemsec === "1"} onClick={() => this.setState({ sortype: "DESC", ordertype: this.state.searchType, activeItemsec: "1"})}>ABC szerint csökkenő</DropdownItem>
@@ -258,22 +258,6 @@ export default class ShowCards extends Component {
                     </Dropdown>
 
 
-
-
-
-
-
-
-                <Stack direction={{ xs: 'vertical', md: 'horizontal' }} gap={0} className="p-3">
-                    <Container>
-                      <Col xs="auto">
-                        <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">Évelő</Button>
-                        <Button className="col-md-auto col-lg-auto mx-auto" variant="primary">Hazánkban előfordul</Button>
-                        <Button className="col-md-2 col-lg-auto mx-auto" variant="primary">illóolaj</Button>
-                      </Col>
-
-                    </Container>
-                </Stack>
 
 
                 <Container >
